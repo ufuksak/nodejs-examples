@@ -19,7 +19,14 @@
     "nodemon": "^1.18.5"
   },
   "dependencies": {
+    "@feathersjs/errors": "^4.5.11",
+    "@feathersjs/express": "^4.5.11",
+    "@feathersjs/feathers": "^4.5.11",
+    "@feathersjs/socketio": "^4.5.11",
     "dotenv": "^6.1.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "feathers-knex": "^8.0.1",
+    "knex": "^0.95.14",
+    "pg": "^8.7.1"
   }
 }

@@ -39,3 +39,6 @@ VALUES(gen_random_uuid(), '8c61641d-5763-41a3-9167-e08865918b80', now());
 insert into clicks(id, campaign_id, created_at)
 VALUES(gen_random_uuid(), '76e59cf6-95cb-4bc2-8a37-f81073ef25d5', now());
 ```
+
+### run exercise8 
+`node submissions/8/app.js`
