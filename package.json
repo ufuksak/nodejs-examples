@@ -6,7 +6,8 @@
   "scripts": {
     "start1": "nodemon --exec babel-node submissions/1/index.js",
     "start3": "nodemon --exec babel-node submissions/3/index.js",
-    "start4": "nodemon --exec babel-node submissions/4/index.js"
+    "start4": "nodemon --exec babel-node submissions/4/index.js",
+    "start5": "nodemon --exec babel-node submissions/5/index.js"
   },
   "keywords": [],
   "author": "",
