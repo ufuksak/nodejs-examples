@@ -1,0 +1,23 @@
+{
+  "name": "project-setup",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start1": "nodemon --exec babel-node submissions/1/index.js",
+    "start3": "nodemon --exec babel-node submissions/3/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "nodemon": "^1.18.5"
+  },
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4"
+  }
+}
