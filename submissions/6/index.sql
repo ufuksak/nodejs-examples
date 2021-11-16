@@ -1,4 +1,4 @@
-  SELECT a.name, date_part('year', a.created_at) || '-' || date_part('month', a.created_at), count(clicks.id)
+  SELECT a.id, a.name, date_part('year', a.created_at) || '-' || date_part('month', a.created_at), count(clicks.id)
     FROM clicks
     JOIN campaigns c ON clicks.campaign_id = c.id
     JOIN accounts a ON c.account_id = a.id
