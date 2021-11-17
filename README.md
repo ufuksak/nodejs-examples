@@ -51,3 +51,7 @@ http://localhost:3030/campaigns
 http://localhost:3030/clicks
 
 
+### exercise9 sample widget creations build & run
+```
+./node_modules/.bin/webpack --config webpack.config.js && ./node_modules/.bin/webpack-dev-server --open
+```
