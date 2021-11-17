@@ -39,6 +39,15 @@ VALUES(gen_random_uuid(), '8c61641d-5763-41a3-9167-e08865918b80', now());
 insert into clicks(id, campaign_id, created_at)
 VALUES(gen_random_uuid(), '76e59cf6-95cb-4bc2-8a37-f81073ef25d5', now());
 ```
+### exercise8 create DB tables
+`node submissions/8/knexCreateTableApp.js`
 
-### run exercise8 
+### exercise8 run 
 `node submissions/8/app.js`
+#### exercise8 active accounts & service queries via Rest calls
+http://localhost:3030/accounts?active[$eq]=true
+http://localhost:3030/accounts
+http://localhost:3030/campaigns
+http://localhost:3030/clicks
+
+

@@ -1,78 +1,125 @@
-const feathers = require('@feathersjs/feathers');
-const express = require('@feathersjs/express');
-const socketio = require('@feathersjs/socketio');
+const path = require('path');
+const feathers = require('feathers');
+const errorHandler = require('feathers-errors/handler')
+const { FeathersError } = require("@feathersjs/errors");
+const rest = require('feathers-rest');
+const socketio = require('feathers-socketio');
+const bodyParser = require('body-parser');
+const Sequelize = require('sequelize');
+const service = require('feathers-sequelize');
+const feathersHook = require('@feathersjs/feathers');
 
-const service = require('feathers-knex');
-const knex = require('knex');
+const appHook = feathersHook();
+const sequelize = new Sequelize('feathers', 'postgres', 'postgres', {
+  dialect: 'postgres',
+  define: {
+    timestamps: false
+  }
+});
 
-const db = knex({
-  client: 'pg',
-  connection: 'postgres://postgres:postgres@localhost:5432/linkby'
+const Op = Sequelize.Op;
+
+const accounts = sequelize.define('accounts', {
+  id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
+  active: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  created_at: {
+    type: Sequelize.TIME,
+    allowNull: false
+  }
+}, {
+  freezeTableName: true
+});
+
+const campaigns = sequelize.define('campaigns', {
+  id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
+  account_id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  start_date: {
+    type: Sequelize.TIME,
+    allowNull: false
+  },
+  end_date: {
+    type: Sequelize.TIME,
+    allowNull: false
+  },
+  created_at: {
+    type: Sequelize.TIME,
+    allowNull: false
+  }
+}, {
+  freezeTableName: true
+});
+
+const clicks = sequelize.define('clicks', {
+  id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
+  campaign_id: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
+  created_at: {
+    type: Sequelize.TIME,
+    allowNull: false
+  }
+}, {
+  freezeTableName: true
 });
 
 // Create a feathers instance.
-const app = express(feathers());
-// Turn on JSON parser for REST services
-app.use(express.json());
-// Turn on URL-encoded parser for REST services
-app.use(express.urlencoded({ extended: true }));
-// Enable REST services
-app.configure(express.rest());
-// Enable Socket.io services
-app.configure(socketio());
-// Create Knex Feathers service with a default page size of 2 items
-// and a maximum size of 4
-app.use('/messages', service({
-  Model: db,
-  name: 'messages',
-  paginate: {
-    default: 2,
-    max: 4
+const app = feathers()
+  // Enable REST services
+  .configure(rest())
+  // Enable Socket.io services
+  .configure(socketio())
+  // Turn on JSON parser for REST services
+  .use(bodyParser.json())
+  // Turn on URL-encoded parser for REST services
+  .use(bodyParser.urlencoded({ extended: true }))
+  // Create an in-memory Feathers service
+  .use('/accounts', service({
+    Model: accounts
+  }))
+  .use('/campaigns', service({
+    Model: campaigns
+  }))
+  .use('/clicks', service({
+    Model: clicks
+  }))
+  .use(errorHandler());
+
+  class UnexpectedRecordType extends FeathersError {
+    constructor(message, data) {
+      super(message, 'unsupported-record-id', 415, 'UnexpectedRecordType', data);
+    }
   }
-}))
-app.use('/accounts', service({
-    Model: db,
-    name: 'accounts',
-    paginate: {
-      default: 2,
-      max: 4
-    }
-  }))
-app.use('/campaigns', service({
-    Model: db,
-    name: 'campaigns',
-    paginate: {
-      default: 2,
-      max: 4
-    }
-  }))
-app.use('/clicks', service({
-    Model: db,
-    name: 'clicks',
-    paginate: {
-      default: 2,
-      max: 4
-    }
-  }))
-app.use(express.errorHandler());
-
-// Clean up our data. This is optional and is here
-// because of our integration tests
-db.schema.dropTableIfExists('messages').then(() => {
-  console.log('Dropped messages table');
-
-  // Initialize your table
-  return db.schema.createTable('messages', table => {
-    console.log('Creating messages table');
-    table.increments('id');
-    table.string('text');
-  });
-}).then(() => {
-  // Create a dummy Message
-  app.service('messages').create({
-    text: 'Message created on server'
-  }).then(message => console.log('Created message', message));
-});
+  
+  const error = new UnexpectedRecordType('Not supported');
 
 // Start the server.
 const port = 3030;
