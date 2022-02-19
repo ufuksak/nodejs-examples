@@ -7,7 +7,9 @@
     "start1": "nodemon --exec babel-node submissions/1/index.js",
     "start3": "nodemon --exec babel-node submissions/3/index.js",
     "start4": "nodemon --exec babel-node submissions/4/index.js",
-    "start5": "nodemon --exec babel-node submissions/5/index.js"
+    "start5": "nodemon --exec babel-node submissions/5/index.js",
+    "es6": "nodemon --exec babel-node submissions/es6/index.js",
+    "groupBy": "nodemon --exec babel-node submissions/groupBy/index.js"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "@feathersjs/express": "^4.5.11",
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/socketio": "^4.5.11",
+    "@types/node": "^17.0.16",
     "body-parser": "^1.19.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",

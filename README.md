@@ -55,3 +55,6 @@ http://localhost:3030/clicks
 ```
 ./node_modules/.bin/webpack --config webpack.config.js && ./node_modules/.bin/webpack-dev-server --open
 ```
+
+### run es6
+npm run es6

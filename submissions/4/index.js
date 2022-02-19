@@ -1,5 +1,5 @@
 function getFibonacci(N) {
-    let lastELement = 0;
+    let lastElement = 0;
     if (N < 1) {
         console.log(-1);
         return;
@@ -7,12 +7,12 @@ function getFibonacci(N) {
     let currentElement = 0, nextElement = 1, nextTerm;
 
     for (let i = 1; i <= N; i++) {
-        lastELement = currentElement;
+        lastElement = currentElement;
         nextTerm = currentElement + nextElement;
         currentElement = nextElement;
         nextElement = nextTerm;
     }
-    console.log(lastELement);
+    console.log(lastElement);
 }
 
 console.log(getFibonacci(5));
